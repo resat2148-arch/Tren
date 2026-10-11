@@ -1,0 +1,138 @@
+{
+  "day": 1,
+  "route": { "from": "Köln", "to": "Hamburg" },
+  "delay": { "from": 20, "to": 180 },
+  "resources": { "kaffee": 40, "brezeln": 60, "steckdosen": 8, "wlan": 1 },
+  "resourcesMax": { "wlan": 4 },
+  "ticker": "+++ Grund dafür sind Verzögerungen im Betriebsablauf +++ Wir bitten um Ihr Verständnis +++ Nächster Halt: unbekannt",
+
+  "intro": {
+    "duration": 2.5,
+    "subtitle": "Ankunft planmäßig 17:52",
+    "clock": "14:08",
+    "location": "Köln Hbf",
+    "still": true,
+    "sfx": [
+      { "sound": "rail_loop", "at": 0, "length": 12.5, "loop": true, "volume": 0.5, "note": "Fahrgeräusch läuft bis zur Vollbremsung" }
+    ]
+  },
+
+  "scenes": [
+    {
+      "type": "diary",
+      "duration": 5,
+      "clock": "14:08",
+      "wagen": 6,
+      "label": "Platz 47",
+      "text": "Köln Hbf, Gleis 4. Abfahrt mit 20 Minuten Verspätung. Ich habe Platz 47, einen Kaffee und einen Plan: Hamburg, 17:52.",
+      "sfx": [
+        { "sound": "typing", "at": 0.15, "length": 2.8, "volume": 0.4, "note": "leises Tippen, solange der Text erscheint" }
+      ]
+    },
+    {
+      "type": "durchsage",
+      "duration": 4,
+      "clock": "15:21",
+      "location": "hinter Dortmund",
+      "delay": 45,
+      "resources": { "kaffee": 34, "brezeln": 52 },
+      "text": "Sehr geehrte Fahrgäste, unsere Ankunft verzögert sich um 45 Minuten. Grund dafür sind Verzögerungen im Betriebsablauf.",
+      "still": true,
+      "sfx": [
+        { "sound": "gong", "at": 0, "note": "eigener Ansage-Gong, drei Töne aufwärts" },
+        { "sound": "led_tick", "at": 0.1, "length": 1.2, "note": "Anzeige zählt +20 → +45" }
+      ]
+    },
+    {
+      "type": "mapEvent",
+      "duration": 4.5,
+      "wagen": 6,
+      "label": "Vollbremsung",
+      "stop": true,
+      "clock": "15:48",
+      "location": "irgendwo hinter Münster",
+      "text": "15:48. Vollbremsung. Kein Bahnhof, kein Signal. Nur Feld, so weit das Auge reicht.",
+      "still": true,
+      "sfx": [
+        { "sound": "brake", "at": 0, "length": 2, "note": "Bremsen kreischen, Zug kommt ruckartig zum Stehen" },
+        { "sound": "crowd_murmur", "at": 1.8, "length": 18, "loop": true, "volume": 0.35, "note": "Gemurmel setzt ein und bleibt bis zur Nacht" }
+      ]
+    },
+    {
+      "type": "durchsage",
+      "duration": 4,
+      "clock": "16:30",
+      "delay": 90,
+      "resources": { "kaffee": 27, "brezeln": 43 },
+      "text": "Sehr geehrte Fahrgäste, die Verspätung beträgt nun 90 Minuten. Grund dafür sind Verzögerungen im Betriebsablauf.",
+      "sfx": [
+        { "sound": "gong", "at": 0 },
+        { "sound": "led_tick", "at": 0.1, "length": 1.2, "note": "Anzeige zählt +45 → +90" }
+      ]
+    },
+    {
+      "type": "mapEvent",
+      "duration": 5,
+      "wagen": 5,
+      "label": "BahnCard 100",
+      "marker": "Rentner übernimmt",
+      "clock": "17:05",
+      "resources": { "steckdosen": 5 },
+      "text": "Ein Rentner mit BahnCard 100 übernimmt das Kommando. „Ich fahre seit 1987. Das ist noch gar nichts.“"
+    },
+    {
+      "type": "durchsage",
+      "duration": 4,
+      "clock": "17:52",
+      "delay": 180,
+      "resources": { "kaffee": 15, "brezeln": 28, "steckdosen": 3 },
+      "text": "Die Verspätung beträgt nun 180 Minuten. Grund dafür sind Verzögerungen im Betriebsablauf. Wir bitten um Ihr Verständnis.",
+      "sfx": [
+        { "sound": "gong", "at": 0 },
+        { "sound": "led_tick", "at": 0.1, "length": 1.2, "note": "Anzeige zählt +90 → +180" }
+      ]
+    },
+    {
+      "type": "mapEvent",
+      "duration": 5,
+      "wagen": 7,
+      "label": "Steckdosen-Streit",
+      "marker": "1 Steckdose",
+      "crowd": true,
+      "night": 1,
+      "clock": "20:48",
+      "location": "unverändert",
+      "resources": { "kaffee": 6, "brezeln": 12, "steckdosen": 1, "wlan": 0 },
+      "text": "Es wird dunkel. In Wagen 7 kämpfen elf Menschen um die letzte freie Steckdose. Das WLAN hat aufgegeben.",
+      "still": true,
+      "sfx": [
+        { "sound": "crickets", "at": 0, "length": 8.5, "loop": true, "volume": 0.4, "note": "Grillen draußen auf dem Feld" },
+        { "sound": "crowd_argue", "at": 1.2, "length": 3.5, "volume": 0.6, "note": "Streit um die Steckdose" }
+      ]
+    },
+    {
+      "type": "durchsage",
+      "duration": 3.5,
+      "urgent": true,
+      "clock": "21:55",
+      "resources": { "kaffee": 2 },
+      "ticker": "+++ Bordbistro schließt in 5 Minuten +++ Bordbistro schließt in 5 Minuten",
+      "text": "Das Bordbistro schließt in 5 Minuten.",
+      "sfx": [
+        { "sound": "gong", "at": 0 },
+        { "sound": "crowd_panic", "at": 2.2, "length": 4.3, "note": "Stille, dann Aufschrei und Getrampel" }
+      ]
+    }
+  ],
+
+  "cliffhanger": {
+    "duration": 3,
+    "lines": ["312 Fahrgäste.", "12 Brezeln."],
+    "punch": "PANIK.",
+    "teaser": "Tag 2 – morgen, gleiche Uhrzeit.",
+    "still": true,
+    "sfx": [
+      { "sound": "impact", "at": 1.13, "note": "dumpfer Schlag genau auf „PANIK.“" }
+    ]
+  }
+}
