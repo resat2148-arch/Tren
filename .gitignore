@@ -1,3 +1,6 @@
 node_modules/
 out/
+public/renders/
+__pycache__/
+*.blend1
 .DS_Store

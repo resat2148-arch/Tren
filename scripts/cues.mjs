@@ -1,60 +1,57 @@
-// Schreibt die Ton-Cue-Liste einer Folge: npm run cues -- day-01
-import {writeFileSync} from 'node:fs';
+// Ton- und Sprecherliste einer Folge: npm run cues -- day-01  →  episodes/day-01.cues.md
+import {readFileSync, writeFileSync} from 'node:fs';
 import {resolve} from 'node:path';
-import {FPS, fmt, loadEpisode, scenesOf} from './episode.mjs';
 
 const id = process.argv[2] ?? 'day-01';
-const ep = loadEpisode(id);
-const scenes = scenesOf(ep);
-const total = scenes.at(-1).from + scenes.at(-1).frames;
-
-const voiceOf = (s) =>
-  s.type === 'durchsage' ? 'Ansage' : s.type === 'diary' || s.type === 'mapEvent' ? 'Platz 47 (Erzähler)' : null;
+const ep = JSON.parse(readFileSync(resolve('episodes', `${id}.json`), 'utf8'));
+const fps = ep.fps ?? 30;
+const fmt = (sec) => `${Math.floor(sec / 60)}:${(sec % 60).toFixed(1).padStart(4, '0')}`;
+const NAMES = {platz47: 'Platz 47', zugchef: 'Zugchef', rentner: 'Rentner', businessmann: 'Businessmann',
+  studentin: 'Studentin', ansage: 'Ansage (Durchsage-Stimme)'};
 
 const rows = [];
-for (const s of scenes) {
-  for (const c of s.sfx ?? []) {
-    const start = s.from + Math.round((c.at ?? 0) * FPS);
-    const end = c.length ? ` – ${fmt(start + Math.round(c.length * FPS))}` : '';
-    rows.push({start, line: `| ${fmt(start)}${end} | SFX | \`${c.sound}\`${c.loop ? ' (Loop)' : ''} | ${c.note ?? ''} |`});
+const shots = [];
+let start = 0;
+const addSfx = (base, list, where) => {
+  for (const c of list ?? []) {
+    const t = base + (c.at ?? 0);
+    const end = c.length ? ` – ${fmt(t + c.length)}` : '';
+    rows.push({t, line: `| ${fmt(t)}${end} | SFX | \`${c.sound}\`${c.loop ? ' (Loop)' : ''} | ${where} | ${c.note ?? ''} |`});
   }
-  const who = voiceOf(s);
-  if (who) {
-    const start = s.from + Math.round(0.2 * FPS);
-    rows.push({
-      start: start + 0.5,
-      line: `| ${fmt(start)} – ${fmt(s.from + s.frames)} | Stimme | ${who} | „${s.text}“ |`,
-    });
+};
+for (const s of ep.shots) {
+  shots.push(`| ${s.id} | ${fmt(start)} | ${s.duration} s | ${s.set} | ${s.note ?? ''} |`);
+  addSfx(start, s.sfx, s.id);
+  for (const l of s.lines ?? []) {
+    const who = l.kind === 'vo' ? `${NAMES[l.who] ?? l.who} (Off-Stimme)` : NAMES[l.who] ?? (l.who.startsWith('fahrgast') ? 'Fahrgast' : l.who);
+    rows.push({t: start + l.t + 0.001, line: `| ${fmt(start + l.t)} – ${fmt(start + l.t + l.d)} | Stimme | ${who} | ${s.id} | „${l.text}“ |`});
   }
+  start += s.duration;
 }
-rows.sort((a, b) => a.start - b.start);
+shots.push(`| Cliffhanger | ${fmt(start)} | ${ep.cliffhanger.duration} s | – | ${[...ep.cliffhanger.lines, ep.cliffhanger.punch].join(' ')} |`);
+addSfx(start, ep.cliffhanger.sfx, 'Cliffhanger');
+const total = start + ep.cliffhanger.duration;
+rows.sort((a, b) => a.t - b.t);
 
-const md = `# Ton-Cues – Tag ${ep.day} (${id})
+const md = `# Ton und Sprecher – ${ep.title} (${id})
 
-Gesamtlänge: ${fmt(total)} (${total} Frames @ ${FPS} fps). Zeiten als m:ss.s.
+Gesamtlänge: ${fmt(total)} (${Math.round(total * fps)} Frames @ ${fps} fps). Zeiten als m:ss.s.
 
-Die Tonspur ist noch leer. So kommen Töne hinein:
+So kommt Ton hinein:
 - **SFX:** Datei nach \`public/sfx/\` legen und in \`src/sfx.ts\` eintragen (z. B. \`gong: 'sfx/gong.wav'\`).
-- **Stimme:** Aufnahme nach \`public/voice/${id}/\` legen und bei der Szene in \`episodes/${id}.json\` \`"voice": "voice/${id}/02.mp3"\` setzen. Sie startet 0,2 s nach Szenenbeginn.
+- **Stimmen:** Aufnahme nach \`public/voice/${id}/\` legen und an der Zeile im Drehbuch \`"voice": "voice/${id}/s07.mp3"\` setzen.
+  Die Münder der Figuren bewegen sich bereits während der Zeitfenster unten.
 
-| Zeit | Spur | Sound / Sprecher | Hinweis / Text |
-|---|---|---|---|
+| Zeit | Spur | Sound / Sprecher | Shot | Hinweis / Text |
+|---|---|---|---|---|
 ${rows.map((r) => r.line).join('\n')}
 
-## Szenen
+## Shots
 
-| # | Start | Länge | Typ | Inhalt |
+| Shot | Start | Länge | Set | Inhalt |
 |---|---|---|---|---|
-${scenes
-  .map(
-    (s) =>
-      `| ${s.index} | ${fmt(s.from)} | ${s.duration} s | ${s.type} | ${
-        s.text ?? (s.type === 'intro' ? `Tag ${ep.day} – ${s.subtitle}` : [...(s.lines ?? []), s.punch].join(' '))
-      } |`,
-  )
-  .join('\n')}
+${shots.join('\n')}
 `;
-
 const out = resolve('episodes', `${id}.cues.md`);
 writeFileSync(out, md);
 console.log(`Cue-Liste: ${out}`);

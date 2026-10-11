@@ -1,138 +1,1117 @@
 {
   "day": 1,
-  "route": { "from": "Köln", "to": "Hamburg" },
-  "delay": { "from": 20, "to": 180 },
-  "resources": { "kaffee": 40, "brezeln": 60, "steckdosen": 8, "wlan": 1 },
-  "resourcesMax": { "wlan": 4 },
-  "ticker": "+++ Grund dafür sind Verzögerungen im Betriebsablauf +++ Wir bitten um Ihr Verständnis +++ Nächster Halt: unbekannt",
-
-  "intro": {
-    "duration": 2.5,
-    "subtitle": "Ankunft planmäßig 17:52",
-    "clock": "14:08",
-    "location": "Köln Hbf",
-    "still": true,
-    "sfx": [
-      { "sound": "rail_loop", "at": 0, "length": 12.5, "loop": true, "volume": 0.5, "note": "Fahrgeräusch läuft bis zur Vollbremsung" }
-    ]
+  "title": "Tag 1",
+  "route": {
+    "from": "Köln",
+    "to": "Hamburg"
   },
-
-  "scenes": [
+  "fps": 30,
+  "intro": {
+    "subtitle": "Ankunft planmäßig 17:52"
+  },
+  "shots": [
     {
-      "type": "diary",
-      "duration": 5,
-      "clock": "14:08",
-      "wagen": 6,
-      "label": "Platz 47",
-      "text": "Köln Hbf, Gleis 4. Abfahrt mit 20 Minuten Verspätung. Ich habe Platz 47, einen Kaffee und einen Plan: Hamburg, 17:52.",
+      "id": "s01",
+      "note": "AUSSEN – Drohne über dem Feld, der Zug rast Richtung Hamburg",
+      "duration": 3.0,
+      "set": "aussen",
+      "time": "tag",
+      "camera": {
+        "preset": "drohne",
+        "drift": [
+          4,
+          -6,
+          -1.5
+        ],
+        "lens": 30
+      },
+      "motion": {
+        "mode": "env",
+        "speed": 50
+      },
+      "hud": {
+        "delay": 20,
+        "clock": "14:08"
+      },
+      "titleCard": true,
       "sfx": [
-        { "sound": "typing", "at": 0.15, "length": 2.8, "volume": 0.4, "note": "leises Tippen, solange der Text erscheint" }
+        {
+          "sound": "rail_loop",
+          "at": 0,
+          "length": 11.9,
+          "loop": true,
+          "note": "Fahrgeräusch bis zur Vollbremsung"
+        }
       ]
     },
     {
-      "type": "durchsage",
-      "duration": 4,
-      "clock": "15:21",
-      "location": "hinter Dortmund",
-      "delay": 45,
-      "resources": { "kaffee": 34, "brezeln": 52 },
-      "text": "Sehr geehrte Fahrgäste, unsere Ankunft verzögert sich um 45 Minuten. Grund dafür sind Verzögerungen im Betriebsablauf.",
-      "still": true,
+      "id": "s02",
+      "note": "WAGEN 6 – Platz 47 am Fenster, Kaffee, gute Laune",
+      "duration": 3.6,
+      "set": "wagen6",
+      "time": "tag",
+      "slug": "Wagen 6 · Platz 47",
+      "motion": {
+        "mode": "env",
+        "speed": 50
+      },
+      "display": "HAMBURG HBF  +20",
+      "camera": {
+        "type": "close",
+        "on": "platz47",
+        "angle": 35,
+        "dist": 1.05,
+        "height": 0.02,
+        "lens": 42,
+        "push": 0.12,
+        "fstop": 2.2
+      },
+      "cast": [
+        {
+          "id": "platz47",
+          "mark": "T3La",
+          "pose": "sit_table",
+          "expr": "smile",
+          "look": "window",
+          "keys": [
+            {
+              "t": 1.9,
+              "look": "camera",
+              "expr": "grin"
+            }
+          ]
+        },
+        {
+          "id": "fahrgast_b",
+          "mark": "T3Ld",
+          "pose": "sit_phone",
+          "expr": "neutral",
+          "look": "down"
+        }
+      ],
+      "props": [
+        {
+          "prop": "becher",
+          "mark": "T3Ltisch",
+          "offset": [
+            -0.12,
+            0.2,
+            0
+          ]
+        },
+        {
+          "prop": "handy",
+          "attach": "fahrgast_b.hand.L",
+          "offset": [
+            0.0,
+            -0.03,
+            -0.07
+          ],
+          "rot": [
+            90,
+            0,
+            0
+          ]
+        }
+      ],
+      "lines": [
+        {
+          "who": "platz47",
+          "kind": "vo",
+          "t": 0.2,
+          "d": 3.2,
+          "text": "Köln Hbf, 14:08. Fensterplatz, Kaffee, vier Stunden Ruhe. Was soll schon schiefgehen?"
+        }
+      ],
       "sfx": [
-        { "sound": "gong", "at": 0, "note": "eigener Ansage-Gong, drei Töne aufwärts" },
-        { "sound": "led_tick", "at": 0.1, "length": 1.2, "note": "Anzeige zählt +20 → +45" }
+        {
+          "sound": "crowd_murmur",
+          "at": 0,
+          "length": 3.6,
+          "volume": 0.2,
+          "note": "leises Großraumgemurmel"
+        }
+      ],
+      "poster": true
+    },
+    {
+      "id": "s03",
+      "note": "WAGEN 6 – erste Durchsage, alle schauen zur Decke",
+      "duration": 3.2,
+      "set": "wagen6",
+      "time": "tag",
+      "motion": {
+        "mode": "env",
+        "speed": 50
+      },
+      "display": "HAMBURG HBF  +45",
+      "hud": {
+        "delay": 45,
+        "clock": "15:21"
+      },
+      "camera": {
+        "type": "free",
+        "pos": [
+          0.3,
+          2.5,
+          1.38
+        ],
+        "target": [
+          -0.8,
+          0.0,
+          1.0
+        ],
+        "lens": 28,
+        "push": 0.08
+      },
+      "cast": [
+        {
+          "id": "platz47",
+          "mark": "T3La",
+          "pose": "sit_table",
+          "expr": "neutral",
+          "look": "ceiling",
+          "keys": [
+            {
+              "t": 1.6,
+              "expr": "annoyed",
+              "look": "fahrgast_b"
+            }
+          ]
+        },
+        {
+          "id": "fahrgast_b",
+          "mark": "T3Ld",
+          "pose": "sit_phone",
+          "expr": "neutral",
+          "look": "down",
+          "keys": [
+            {
+              "t": 0.5,
+              "look": "ceiling",
+              "pose": "sit"
+            },
+            {
+              "t": 1.8,
+              "look": "platz47",
+              "expr": "tired"
+            }
+          ]
+        },
+        {
+          "id": "fahrgast_a",
+          "mark": "T2Rb",
+          "pose": "sit",
+          "expr": "neutral",
+          "look": "ceiling",
+          "keys": [
+            {
+              "t": 1.4,
+              "expr": "annoyed"
+            }
+          ]
+        },
+        {
+          "id": "fahrgast_c",
+          "mark": "T4Ld",
+          "pose": "sit_back",
+          "expr": "tired",
+          "look": "ceiling"
+        },
+        {
+          "id": "fahrgast_d",
+          "mark": "T4Rc",
+          "pose": "sit",
+          "expr": "neutral",
+          "look": "ceiling",
+          "keys": [
+            {
+              "t": 1.2,
+              "expr": "worried"
+            }
+          ]
+        }
+      ],
+      "props": [
+        {
+          "prop": "becher",
+          "mark": "T3Ltisch",
+          "offset": [
+            -0.12,
+            0.2,
+            0
+          ]
+        }
+      ],
+      "lines": [
+        {
+          "who": "ansage",
+          "kind": "durchsage",
+          "t": 0.1,
+          "d": 3.0,
+          "text": "Sehr geehrte Fahrgäste, unsere Ankunft verzögert sich um 45 Minuten. Grund dafür sind Verzögerungen im Betriebsablauf."
+        }
+      ],
+      "sfx": [
+        {
+          "sound": "gong",
+          "at": 0
+        },
+        {
+          "sound": "led_tick",
+          "at": 0.1,
+          "length": 1.0
+        }
       ]
     },
     {
-      "type": "mapEvent",
-      "duration": 4.5,
-      "wagen": 6,
-      "label": "Vollbremsung",
-      "stop": true,
-      "clock": "15:48",
-      "location": "irgendwo hinter Münster",
-      "text": "15:48. Vollbremsung. Kein Bahnhof, kein Signal. Nur Feld, so weit das Auge reicht.",
-      "still": true,
+      "id": "s04",
+      "note": "WAGEN 6 – Vollbremsung, Platz 47 wird nach vorn geworfen",
+      "duration": 3.0,
+      "set": "wagen6",
+      "time": "nachmittag",
+      "motion": {
+        "mode": "env",
+        "speed": 50,
+        "brake": {
+          "t": 0.5,
+          "dur": 1.6
+        }
+      },
+      "display": "HAMBURG HBF  +45",
+      "hud": {
+        "clock": "15:48"
+      },
+      "jolt": {
+        "t": 0.55,
+        "dur": 1.0
+      },
+      "camera": {
+        "type": "close",
+        "on": "platz47",
+        "angle": -30,
+        "dist": 0.95,
+        "height": 0.0,
+        "lens": 40,
+        "fstop": 2.2,
+        "shake": [
+          {
+            "t": 0.5,
+            "dur": 1.4,
+            "amp": 2.2
+          }
+        ]
+      },
+      "cast": [
+        {
+          "id": "platz47",
+          "mark": "T3La",
+          "pose": "sit_table",
+          "expr": "neutral",
+          "look": "window",
+          "keys": [
+            {
+              "t": 0.6,
+              "expr": "shocked",
+              "look": "camera"
+            },
+            {
+              "t": 1.8,
+              "expr": "surprised",
+              "look": "window"
+            }
+          ]
+        },
+        {
+          "id": "fahrgast_b",
+          "mark": "T3Ld",
+          "pose": "sit_phone",
+          "expr": "neutral",
+          "look": "down",
+          "keys": [
+            {
+              "t": 0.6,
+              "expr": "shocked",
+              "look": "platz47"
+            }
+          ]
+        }
+      ],
+      "props": [
+        {
+          "prop": "becher",
+          "mark": "T3Ltisch",
+          "offset": [
+            -0.12,
+            0.2,
+            0
+          ]
+        }
+      ],
+      "lines": [
+        {
+          "who": "platz47",
+          "kind": "say",
+          "t": 1.9,
+          "d": 1.0,
+          "text": "Was war DAS?"
+        }
+      ],
       "sfx": [
-        { "sound": "brake", "at": 0, "length": 2, "note": "Bremsen kreischen, Zug kommt ruckartig zum Stehen" },
-        { "sound": "crowd_murmur", "at": 1.8, "length": 18, "loop": true, "volume": 0.35, "note": "Gemurmel setzt ein und bleibt bis zur Nacht" }
+        {
+          "sound": "brake",
+          "at": 0.45,
+          "length": 2.0,
+          "note": "Bremsen kreischen, Ruck"
+        },
+        {
+          "sound": "crowd_panic",
+          "at": 0.6,
+          "length": 1.0,
+          "volume": 0.5,
+          "note": "kurzer Aufschrei im Wagen"
+        }
+      ],
+      "poster": true
+    },
+    {
+      "id": "s05",
+      "note": "AUSSEN – der Zug steht mitten im Feld. Stille.",
+      "duration": 2.5,
+      "set": "aussen",
+      "time": "nachmittag",
+      "slug": "Irgendwo hinter Münster",
+      "camera": {
+        "type": "free",
+        "pos": [
+          -34,
+          10,
+          0.3
+        ],
+        "target": [
+          0,
+          -14,
+          0.9
+        ],
+        "lens": 45,
+        "push": 0.04
+      },
+      "sfx": [
+        {
+          "sound": "crickets",
+          "at": 0,
+          "length": 2.5,
+          "volume": 0.3,
+          "note": "Stille, Wind, ein Vogel"
+        }
       ]
     },
     {
-      "type": "durchsage",
-      "duration": 4,
-      "clock": "16:30",
-      "delay": 90,
-      "resources": { "kaffee": 27, "brezeln": 43 },
-      "text": "Sehr geehrte Fahrgäste, die Verspätung beträgt nun 90 Minuten. Grund dafür sind Verzögerungen im Betriebsablauf.",
-      "sfx": [
-        { "sound": "gong", "at": 0 },
-        { "sound": "led_tick", "at": 0.1, "length": 1.2, "note": "Anzeige zählt +45 → +90" }
+      "id": "s06",
+      "note": "WAGEN 6 – der Zugchef kommt durch den Gang, Platz 47 fragt",
+      "duration": 3.0,
+      "set": "wagen6",
+      "time": "nachmittag",
+      "display": "HAMBURG HBF  +45",
+      "camera": {
+        "type": "ots",
+        "from": "platz47",
+        "to": "zugchef",
+        "side": -1,
+        "lens": 38,
+        "fstop": 2.4
+      },
+      "cast": [
+        {
+          "id": "platz47",
+          "mark": "T3La",
+          "pose": "sit_table",
+          "expr": "worried",
+          "look": "zugchef",
+          "keys": [
+            {
+              "t": 1.2,
+              "pose": "sit_talk"
+            }
+          ]
+        },
+        {
+          "id": "zugchef",
+          "mark": "G3",
+          "pose": "stand",
+          "expr": "neutral",
+          "look": "platz47",
+          "facing": 180,
+          "keys": [
+            {
+              "t": 0.0,
+              "move": "G1",
+              "dur": 1.1,
+              "gait": "walk"
+            },
+            {
+              "t": 1.2,
+              "facing": 270
+            }
+          ]
+        }
+      ],
+      "lines": [
+        {
+          "who": "platz47",
+          "kind": "say",
+          "t": 1.3,
+          "d": 1.6,
+          "text": "Entschuldigung … wie lange stehen wir hier noch?"
+        }
       ]
     },
     {
-      "type": "mapEvent",
-      "duration": 5,
-      "wagen": 5,
-      "label": "BahnCard 100",
-      "marker": "Rentner übernimmt",
-      "clock": "17:05",
-      "resources": { "steckdosen": 5 },
-      "text": "Ein Rentner mit BahnCard 100 übernimmt das Kommando. „Ich fahre seit 1987. Das ist noch gar nichts.“"
+      "id": "s07",
+      "note": "WAGEN 6 – Gegenschuss Zugchef, er weiß es selbst nicht",
+      "duration": 2.8,
+      "set": "wagen6",
+      "time": "nachmittag",
+      "display": "HAMBURG HBF  +45",
+      "camera": {
+        "type": "close",
+        "on": "zugchef",
+        "angle": -25,
+        "dist": 1.0,
+        "height": -0.12,
+        "lens": 40,
+        "fstop": 2.2,
+        "push": 0.06
+      },
+      "cast": [
+        {
+          "id": "zugchef",
+          "mark": "G1",
+          "pose": "stand_talk",
+          "expr": "worried",
+          "look": "platz47",
+          "facing": 270,
+          "keys": [
+            {
+              "t": 2.1,
+              "expr": "smile",
+              "pose": "stand"
+            }
+          ]
+        },
+        {
+          "id": "platz47",
+          "mark": "T3La",
+          "pose": "sit_talk",
+          "expr": "worried",
+          "look": "zugchef"
+        }
+      ],
+      "lines": [
+        {
+          "who": "zugchef",
+          "kind": "say",
+          "t": 0.2,
+          "d": 1.9,
+          "text": "Das kann ich Ihnen leider nicht sagen."
+        }
+      ],
+      "poster": true
     },
     {
-      "type": "durchsage",
-      "duration": 4,
-      "clock": "17:52",
-      "delay": 180,
-      "resources": { "kaffee": 15, "brezeln": 28, "steckdosen": 3 },
-      "text": "Die Verspätung beträgt nun 180 Minuten. Grund dafür sind Verzögerungen im Betriebsablauf. Wir bitten um Ihr Verständnis.",
+      "id": "s08",
+      "note": "WAGEN 6 – zweite Durchsage, beide schauen hoch. Der Zugchef zuckt mit den Schultern.",
+      "duration": 2.6,
+      "set": "wagen6",
+      "time": "nachmittag",
+      "display": "HAMBURG HBF  +90",
+      "hud": {
+        "delay": 90,
+        "clock": "16:30"
+      },
+      "camera": {
+        "type": "two",
+        "a": "platz47",
+        "b": "zugchef",
+        "side": -1,
+        "dist": 1.9,
+        "height": 0.1,
+        "lens": 28
+      },
+      "cast": [
+        {
+          "id": "platz47",
+          "mark": "T3La",
+          "pose": "sit_table",
+          "expr": "worried",
+          "look": "ceiling",
+          "keys": [
+            {
+              "t": 1.4,
+              "look": "zugchef",
+              "expr": "annoyed"
+            }
+          ]
+        },
+        {
+          "id": "zugchef",
+          "mark": "G1",
+          "pose": "stand",
+          "expr": "neutral",
+          "look": "ceiling",
+          "facing": 270,
+          "keys": [
+            {
+              "t": 1.3,
+              "pose": "shrug",
+              "expr": "worried",
+              "look": "platz47"
+            }
+          ]
+        }
+      ],
+      "lines": [
+        {
+          "who": "ansage",
+          "kind": "durchsage",
+          "t": 0.1,
+          "d": 2.4,
+          "text": "Die Verspätung beträgt nun 90 Minuten. Grund dafür sind Verzögerungen im Betriebsablauf."
+        }
+      ],
       "sfx": [
-        { "sound": "gong", "at": 0 },
-        { "sound": "led_tick", "at": 0.1, "length": 1.2, "note": "Anzeige zählt +90 → +180" }
+        {
+          "sound": "gong",
+          "at": 0
+        },
+        {
+          "sound": "led_tick",
+          "at": 0.1,
+          "length": 1.0
+        }
       ]
     },
     {
-      "type": "mapEvent",
-      "duration": 5,
-      "wagen": 7,
-      "label": "Steckdosen-Streit",
-      "marker": "1 Steckdose",
-      "crowd": true,
-      "night": 1,
-      "clock": "20:48",
-      "location": "unverändert",
-      "resources": { "kaffee": 6, "brezeln": 12, "steckdosen": 1, "wlan": 0 },
-      "text": "Es wird dunkel. In Wagen 7 kämpfen elf Menschen um die letzte freie Steckdose. Das WLAN hat aufgegeben.",
-      "still": true,
-      "sfx": [
-        { "sound": "crickets", "at": 0, "length": 8.5, "loop": true, "volume": 0.4, "note": "Grillen draußen auf dem Feld" },
-        { "sound": "crowd_argue", "at": 1.2, "length": 3.5, "volume": 0.6, "note": "Streit um die Steckdose" }
+      "id": "s09",
+      "note": "WAGEN 5 – der Rentner steht auf und reißt das Kommando an sich",
+      "duration": 3.6,
+      "set": "wagen5",
+      "time": "nachmittag",
+      "slug": "Wagen 5 · 17:05",
+      "display": "HAMBURG HBF  +90",
+      "hud": {
+        "clock": "17:05"
+      },
+      "camera": {
+        "type": "close",
+        "on": "rentner",
+        "angle": 8,
+        "dist": 1.7,
+        "height": -0.42,
+        "lens": 30,
+        "push": 0.1,
+        "fstop": 4
+      },
+      "cast": [
+        {
+          "id": "rentner",
+          "mark": "G3",
+          "pose": "stand",
+          "expr": "determined",
+          "look": "camera",
+          "facing": 180,
+          "keys": [
+            {
+              "t": 0.5,
+              "pose": "raise_card",
+              "expr": "smug"
+            }
+          ]
+        },
+        {
+          "id": "fahrgast_a",
+          "mark": "R5Ra",
+          "pose": "sit",
+          "expr": "sceptical",
+          "look": "rentner"
+        },
+        {
+          "id": "fahrgast_d",
+          "mark": "R5La",
+          "pose": "sit",
+          "expr": "surprised",
+          "look": "rentner"
+        },
+        {
+          "id": "fahrgast_c",
+          "mark": "R7La",
+          "pose": "sit_back",
+          "expr": "tired",
+          "look": "rentner"
+        }
+      ],
+      "props": [
+        {
+          "prop": "karte100",
+          "attach": "rentner.hand.R",
+          "offset": [
+            0.0,
+            -0.025,
+            -0.1
+          ],
+          "rot": [
+            0,
+            0,
+            180
+          ]
+        }
+      ],
+      "lines": [
+        {
+          "who": "rentner",
+          "kind": "say",
+          "t": 0.6,
+          "d": 2.8,
+          "text": "Ich fahre seit 1987 mit dieser Bahn. Ab jetzt übernehme ich!"
+        }
+      ],
+      "poster": true
+    },
+    {
+      "id": "s10",
+      "note": "WAGEN 5 – Reaktion Zugchef",
+      "duration": 2.0,
+      "set": "wagen5",
+      "time": "nachmittag",
+      "display": "HAMBURG HBF  +90",
+      "camera": {
+        "type": "close",
+        "on": "zugchef",
+        "angle": 20,
+        "dist": 0.9,
+        "height": 0.0,
+        "lens": 45,
+        "fstop": 2.0
+      },
+      "cast": [
+        {
+          "id": "zugchef",
+          "mark": "G6",
+          "pose": "stand",
+          "expr": "surprised",
+          "look": "rentner",
+          "facing": 0,
+          "keys": [
+            {
+              "t": 1.2,
+              "expr": "annoyed"
+            }
+          ]
+        },
+        {
+          "id": "rentner",
+          "mark": "G3",
+          "pose": "raise_card",
+          "expr": "smug",
+          "look": "zugchef",
+          "facing": 180
+        }
+      ],
+      "props": [
+        {
+          "prop": "karte100",
+          "attach": "rentner.hand.R",
+          "offset": [
+            0.0,
+            -0.025,
+            -0.1
+          ],
+          "rot": [
+            0,
+            0,
+            180
+          ]
+        }
+      ],
+      "lines": [
+        {
+          "who": "zugchef",
+          "kind": "say",
+          "t": 0.3,
+          "d": 1.1,
+          "text": "Bitte … was?"
+        }
       ]
     },
     {
-      "type": "durchsage",
-      "duration": 3.5,
-      "urgent": true,
-      "clock": "21:55",
-      "resources": { "kaffee": 2 },
-      "ticker": "+++ Bordbistro schließt in 5 Minuten +++ Bordbistro schließt in 5 Minuten",
-      "text": "Das Bordbistro schließt in 5 Minuten.",
+      "id": "s11",
+      "note": "AUSSEN – Sonnenuntergang über dem stehenden Zug, dritte Durchsage",
+      "duration": 3.0,
+      "set": "aussen",
+      "time": "abend",
+      "display": "HAMBURG HBF  +180",
+      "hud": {
+        "delay": 180,
+        "clock": "17:52"
+      },
+      "camera": {
+        "preset": "drohne",
+        "lens": 34,
+        "push": 0.08,
+        "drift": [
+          0,
+          0,
+          2
+        ]
+      },
+      "lines": [
+        {
+          "who": "ansage",
+          "kind": "durchsage",
+          "t": 0.1,
+          "d": 2.8,
+          "text": "Die Verspätung beträgt nun 180 Minuten. Wir bitten um Ihr Verständnis."
+        },
+        {
+          "who": "platz47",
+          "kind": "vo",
+          "t": 0.1,
+          "d": 2.8,
+          "text": "17:52. Eigentlich wären wir jetzt in Hamburg."
+        }
+      ],
       "sfx": [
-        { "sound": "gong", "at": 0 },
-        { "sound": "crowd_panic", "at": 2.2, "length": 4.3, "note": "Stille, dann Aufschrei und Getrampel" }
+        {
+          "sound": "gong",
+          "at": 0
+        },
+        {
+          "sound": "led_tick",
+          "at": 0.1,
+          "length": 1.2
+        }
       ]
+    },
+    {
+      "id": "s12",
+      "note": "WAGEN 7 / BORDBISTRO – Nacht. Streit um die letzte freie Steckdose.",
+      "duration": 3.6,
+      "set": "wagen7",
+      "time": "nacht",
+      "slug": "Wagen 7 · Bordbistro · 20:48",
+      "display": "HAMBURG HBF  +180",
+      "hud": {
+        "clock": "20:48"
+      },
+      "camera": {
+        "type": "two",
+        "a": "businessmann",
+        "b": "studentin",
+        "side": -1,
+        "dist": 1.7,
+        "height": 0.05,
+        "lens": 30,
+        "fstop": 2.8
+      },
+      "cast": [
+        {
+          "id": "businessmann",
+          "mark": "STEH2",
+          "pose": "stand_talk",
+          "expr": "angry",
+          "look": "studentin",
+          "facing": 180,
+          "keys": [
+            {
+              "t": 1.7,
+              "pose": "arms_crossed",
+              "expr": "annoyed"
+            }
+          ]
+        },
+        {
+          "id": "studentin",
+          "mark": "STEH2b",
+          "pose": "arms_crossed",
+          "expr": "sceptical",
+          "look": "businessmann",
+          "facing": 0,
+          "keys": [
+            {
+              "t": 1.6,
+              "pose": "point",
+              "expr": "angry"
+            }
+          ]
+        },
+        {
+          "id": "fahrgast_c",
+          "mark": "BAR1",
+          "pose": "stand",
+          "expr": "tired",
+          "look": "businessmann"
+        }
+      ],
+      "props": [
+        {
+          "prop": "laptop",
+          "mark": "STEH2",
+          "offset": [
+            -0.55,
+            0.15,
+            1.08
+          ],
+          "rot": [
+            0,
+            0,
+            -90
+          ]
+        },
+        {
+          "prop": "handy",
+          "attach": "studentin.hand.L",
+          "offset": [
+            0.0,
+            -0.03,
+            -0.07
+          ],
+          "rot": [
+            90,
+            0,
+            0
+          ]
+        }
+      ],
+      "lines": [
+        {
+          "who": "businessmann",
+          "kind": "say",
+          "t": 0.2,
+          "d": 1.4,
+          "text": "Ich hab gleich ein Meeting!"
+        },
+        {
+          "who": "studentin",
+          "kind": "say",
+          "t": 1.8,
+          "d": 1.5,
+          "text": "Und ich hab zwei Prozent!"
+        }
+      ],
+      "sfx": [
+        {
+          "sound": "crowd_argue",
+          "at": 0,
+          "length": 3.6,
+          "volume": 0.4
+        }
+      ],
+      "poster": true
+    },
+    {
+      "id": "s13",
+      "note": "WAGEN 7 – Alarm-Durchsage, Kamera fährt auf die letzten Brezeln zu",
+      "duration": 2.6,
+      "set": "wagen7",
+      "time": "nacht",
+      "display": "BORDBISTRO  5 MIN",
+      "camera": {
+        "type": "free",
+        "pos": [
+          -0.55,
+          -2.6,
+          1.42
+        ],
+        "target": [
+          0.42,
+          -4.3,
+          1.12
+        ],
+        "lens": 30,
+        "push": 0.45,
+        "fstop": 2.0
+      },
+      "lines": [
+        {
+          "who": "ansage",
+          "kind": "durchsage",
+          "urgent": true,
+          "t": 0.1,
+          "d": 2.4,
+          "text": "Das Bordbistro schließt in 5 Minuten."
+        }
+      ],
+      "sfx": [
+        {
+          "sound": "gong",
+          "at": 0
+        }
+      ]
+    },
+    {
+      "id": "s14",
+      "note": "WAGEN 7 – alle rennen auf die Theke zu",
+      "duration": 2.4,
+      "set": "wagen7",
+      "time": "nacht",
+      "display": "BORDBISTRO  5 MIN",
+      "camera": {
+        "type": "free",
+        "pos": [
+          -0.6,
+          -7.2,
+          1.42
+        ],
+        "target": [
+          -0.15,
+          2.0,
+          1.2
+        ],
+        "lens": 24,
+        "shake": [
+          {
+            "t": 0.0,
+            "dur": 2.4,
+            "amp": 1.4
+          }
+        ]
+      },
+      "cast": [
+        {
+          "id": "fahrgast_a",
+          "mark": "G1",
+          "pose": "stand",
+          "expr": "panic",
+          "look": "camera",
+          "facing": 0,
+          "keys": [
+            {
+              "t": 0.15,
+              "move": [
+                -0.55,
+                -3.6,
+                0
+              ],
+              "dur": 1.9,
+              "gait": "run"
+            }
+          ]
+        },
+        {
+          "id": "fahrgast_c",
+          "mark": "G3",
+          "pose": "stand",
+          "expr": "panic",
+          "look": "camera",
+          "facing": 0,
+          "keys": [
+            {
+              "t": 0.0,
+              "move": [
+                -0.35,
+                -2.6,
+                0
+              ],
+              "dur": 2.0,
+              "gait": "run"
+            }
+          ]
+        },
+        {
+          "id": "studentin",
+          "mark": "G4",
+          "pose": "stand",
+          "expr": "panic",
+          "look": "camera",
+          "facing": 0,
+          "keys": [
+            {
+              "t": 0.25,
+              "move": [
+                0.2,
+                -1.6,
+                0
+              ],
+              "dur": 2.0,
+              "gait": "run"
+            }
+          ]
+        },
+        {
+          "id": "businessmann",
+          "mark": "G6",
+          "pose": "stand",
+          "expr": "panic",
+          "look": "camera",
+          "facing": 0,
+          "keys": [
+            {
+              "t": 0.1,
+              "move": [
+                -0.25,
+                -0.6,
+                0
+              ],
+              "dur": 2.2,
+              "gait": "run"
+            }
+          ]
+        },
+        {
+          "id": "fahrgast_d",
+          "mark": "G7",
+          "pose": "stand",
+          "expr": "shocked",
+          "look": "camera",
+          "facing": 0,
+          "keys": [
+            {
+              "t": 0.4,
+              "move": [
+                0.1,
+                1.5,
+                0
+              ],
+              "dur": 2.0,
+              "gait": "run"
+            }
+          ]
+        }
+      ],
+      "lines": [
+        {
+          "who": "fahrgast_a",
+          "kind": "say",
+          "t": 0.4,
+          "d": 0.9,
+          "text": "DIE BREZELN!"
+        }
+      ],
+      "sfx": [
+        {
+          "sound": "crowd_panic",
+          "at": 0,
+          "length": 5.4,
+          "note": "Getrampel, Geschrei, läuft in den Cliffhanger"
+        }
+      ],
+      "poster": true
     }
   ],
-
   "cliffhanger": {
-    "duration": 3,
-    "lines": ["312 Fahrgäste.", "12 Brezeln."],
+    "duration": 3.0,
+    "lines": [
+      "312 Fahrgäste.",
+      "12 Brezeln."
+    ],
     "punch": "PANIK.",
     "teaser": "Tag 2 – morgen, gleiche Uhrzeit.",
-    "still": true,
     "sfx": [
-      { "sound": "impact", "at": 1.13, "note": "dumpfer Schlag genau auf „PANIK.“" }
+      {
+        "sound": "impact",
+        "at": 1.13,
+        "note": "dumpfer Schlag auf „PANIK.“"
+      }
     ]
   }
 }

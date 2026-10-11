@@ -5,6 +5,8 @@
   "description": "Gestrandet im Zug – YouTube-Shorts-Serie (Remotion)",
   "scripts": {
     "dev": "remotion studio",
+    "assets": "node scripts/blender.mjs build_assets.py",
+    "shots": "node scripts/blender.mjs render_shots.py",
     "render": "node scripts/render.mjs",
     "cues": "node scripts/cues.mjs",
     "typecheck": "tsc --noEmit"

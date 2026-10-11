@@ -12,20 +12,28 @@ Köln → Hamburg hattında bir hızlı tren tarlanın ortasında duruyor ve bir
 ## Yasal/marka notu
 DB logosu, DB kurum fontu ve DB'nin birebir renk paleti KULLANILMAYACAK. Tren, gösterge ve anons tasarımı özgün olacak; gecikme anonsu tarzı hicvi zaten anlatıyor. Seri adında "ICE" yerine nötr "Zug" tercih edildi.
 
-## Teknik özellikler
-- Remotion (React + TypeScript)
+## Teknik özellikler (güncel: kısa film yapısı)
+- **Blender 5.x (EEVEE)** = çekimler. Mekânlar ve karakterler bir kez üretilip `assets/` altına `.blend` olarak kaydedilir:
+  - `assets/sets/`: `wagen5` (2+2 Großraum), `wagen6` (masalı bölüm, Platz 47 = `T3La`), `wagen7` (Bordbistro + tezgâh + vitrin), `wagen1` (1. Klasse, cam kapı `DOOR_1K`), `aussen` (tren dıştan), `umgebung` (tarla, ray, direkler)
+  - `assets/characters/`: `platz47`, `zugchef`, `rentner`, `businessmann`, `studentin`, `fahrgast_a`–`fahrgast_d`
+  - `assets/props/props.blend`: becher, laptop, handy, karte100, brezel
+  - Kaynak kod: `blender/lib/` (wagon.py, exterior.py, character.py, cast.py, world.py). Yeniden üretmek: `npm run assets -- all`
+- **Senaryo = JSON**: `episodes/day-XX.json` içinde çekim listesi (set, saat, kamera, oyuncular + işaret/poz/ifade/bakış, replikler, anonslar, efektler). Şablon kodu değişmez.
+  - Pozlar ve ifadeler: `blender/lib/character.py` → `POSES`, `EXPRESSIONS`
+  - Kamera tipleri: `preset`, `free`, `close`, `ots` (omuz üstü), `two` (ikili çekim); `push`, `drift`, `shake`, `fstop`
+  - İşaretler (oturma/ayakta durma yerleri): `blender/lib/wagon.py` başındaki açıklama
+- **Remotion = kurgu**: Blender çekimlerini birleştirir; altyazı, anons balonu, LED gecikme göstergesi (HUD), mekân başlığı, Tag-X başlığı ve cliffhanger kartını ekler.
+- Komutlar: `npm run shots -- day-01 --quality final` (Blender) → `npm run render -- day-01` (Remotion MP4 + kontrol görüntüleri)
 - 1080×1920, 30 fps, bölüm başına 30–50 sn
-- Veri odaklı: her bölüm `episodes/day-XX.json` dosyasından üretilir; şablon kodu değişmez
-- Render: `npx remotion render` ile her gün için ayrı MP4
 
-## Görsel bileşenler
-1. **DayCounter** — ilk karede büyük "Tag X", sonra köşede küçük
-2. **TrainMap** — vagonların kuşbakışı planı (Wagen 5, 6, 7, 1. Klasse), yolcular nokta/ikon; olaylar ilgili vagonda vurgulanır
-3. **DelayBoard** — turuncu LED tarzı gösterge ("+20 Min" → "+180 Min"), sayı yukarı sayarak animasyonlanır
-4. **ResourceBars** — Bordbistro stoğu (Kaffee, Brezeln), freie Steckdosen, WLAN sinyali
-5. **Durchsage** — anons balonu + gong sesi (özgün bir chime, DB gongu değil)
-6. **DiaryText** — anlatıcı "Platz 47"nin günlük metni, daktilo efektiyle
-7. **CliffhangerCard** — son 3 sn, kararan ekran + son cümle
+## Görsel bileşenler (Remotion katmanı)
+1. **TitleCard / HUD** — ilk çekimde büyük "Tag X", sonra sol üstte küçük gösterge (saat + gecikme)
+2. **HUD gecikme** — turuncu LED ("+20 Min" → "+180 Min"); değer artınca büyüyüp sayarak yükselir
+3. **Durchsage** — anons balonu + gong (özgün chime, DB gongu değil)
+4. **Subtitle** — replikler (konuşanın adıyla) ve Platz 47'nin iç sesi (daktilo)
+5. **Slug** — mekân başlığı ("Wagen 7 · Bordbistro · 20:48")
+6. **CliffhangerCard** — son 3 sn, kararan ekran + son cümle
+(Eski kuşbakışı TrainMap/ResourceBars panosu kaldırıldı; vagonlar artık 3D sahne.)
 
 ## Ses
 - Anlatıcı (Platz 47): Almanca TTS sesi (örn. ElevenLabs)

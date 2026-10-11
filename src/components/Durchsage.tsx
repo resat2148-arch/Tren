@@ -1,6 +1,5 @@
 import React from 'react';
 import {interpolate, random, useCurrentFrame} from 'remotion';
-import {CardFrame} from './Card';
 import {Led} from './Led';
 import {theme} from '../theme';
 
@@ -24,7 +23,7 @@ const Speaker: React.FC<{color: string; frame: number}> = ({color, frame}) => (
   </svg>
 );
 
-// Ansage-Blase. Wörter erscheinen im Sprechtempo; "urgent" blinkt und wackelt.
+// Ansage-Blase oben im Bild (die Lautsprecher sitzen an der Decke). "urgent" blinkt und wackelt.
 export const Durchsage: React.FC<{text: string; frames: number; urgent?: boolean}> = ({
   text,
   frames: durationInFrames,
@@ -43,26 +42,24 @@ export const Durchsage: React.FC<{text: string; frames: number; urgent?: boolean
   const glitch = frame < 6 ? (random(`g-${frame}`) - 0.5) * 16 : 0;
 
   return (
-    <CardFrame frames={durationInFrames}>
+    <div
+      style={{
+        position: 'absolute',
+        left: 60,
+        right: 60,
+        top: 470,
+        opacity: interpolate(frame, [0, 6, durationInFrames - 6, durationInFrames], [0, 1, 1, 0], {
+          extrapolateLeft: 'clamp',
+          extrapolateRight: 'clamp',
+        }),
+      }}
+    >
       <div style={{position: 'relative', transform: `translateX(${shake + glitch}px)`}}>
-        {/* Sprechblasen-Spitze nach oben zum Zug */}
-        <div
-          style={{
-            position: 'absolute',
-            left: 70,
-            top: -20,
-            width: 0,
-            height: 0,
-            borderLeft: '22px solid transparent',
-            borderRight: '22px solid transparent',
-            borderBottom: `22px solid ${color}`,
-          }}
-        />
         <div
           style={{
             padding: '28px 36px 36px',
             borderRadius: 26,
-            background: urgent ? 'linear-gradient(180deg, #2A130C, #160C08)' : 'linear-gradient(180deg, #1E1810, #120F0B)',
+            background: urgent ? 'rgba(42,19,12,0.92)' : 'rgba(22,18,12,0.88)',
             border: `3px solid ${color}`,
             boxShadow: `0 0 ${urgent && blinkOn ? 60 : 30}px ${urgent ? 'rgba(255,91,46,0.45)' : 'rgba(255,159,28,0.25)'}`,
           }}
@@ -73,7 +70,7 @@ export const Durchsage: React.FC<{text: string; frames: number; urgent?: boolean
               DURCHSAGE
             </Led>
           </div>
-          <div style={{fontFamily: theme.fontSans, fontWeight: 600, fontSize: urgent ? 58 : 44, lineHeight: 1.3, color: theme.text}}>
+          <div style={{fontFamily: theme.fontSans, fontWeight: 600, fontSize: urgent ? 56 : 40, lineHeight: 1.3, color: theme.text}}>
             {words.map((w, i) => {
               const o = Math.max(0, Math.min(1, shown - i));
               return (
@@ -86,6 +83,6 @@ export const Durchsage: React.FC<{text: string; frames: number; urgent?: boolean
           </div>
         </div>
       </div>
-    </CardFrame>
+    </div>
   );
 };

@@ -1,14 +1,6 @@
-// Datenschema einer Folge (episodes/day-XX.json).
-// Alle Zeitangaben in Sekunden.
-
-export type WagenId = 5 | 6 | 7 | '1. Klasse';
-
-export type Resources = {
-  kaffee: number; // Becher
-  brezeln: number; // Stück
-  steckdosen: number; // freie Steckdosen
-  wlan: number; // Balken, 0–4
-};
+// Drehbuch einer Folge (episodes/day-XX.json). Zeiten in Sekunden.
+// Die 3D-Felder (set, cast, camera, props, motion …) liest nur Blender (blender/render_shots.py);
+// Remotion nutzt Dauer, Dialoge, Durchsagen, HUD, Ortsangaben und Töne.
 
 export type SoundId =
   | 'gong'
@@ -25,55 +17,54 @@ export type SoundId =
 
 export type SfxCue = {
   sound: SoundId;
-  at?: number; // relativ zum Szenenstart
-  length?: number; // ohne Angabe: bis Dateiende
+  at?: number;
+  length?: number;
   loop?: boolean;
   volume?: number;
-  note?: string; // Regieanweisung für die Cue-Liste
+  note?: string;
 };
 
-// Felder, die jede Szene setzen kann. Was nicht gesetzt ist, bleibt wie in der Szene davor.
-export type SceneBase = {
+export type Line = {
+  who: string; // Figuren-ID oder "ansage"
+  kind: 'say' | 'vo' | 'durchsage';
+  t: number;
+  d: number;
+  text: string;
+  urgent?: boolean;
+  voice?: string; // Aufnahme unter public/, z. B. "voice/day-01/s07.mp3"
+};
+
+export type Shot = {
+  id: string;
+  note?: string;
   duration: number;
-  clock?: string; // Uhrzeit auf der Anzeige, z. B. "15:48"
-  location?: string; // Standort-Zeile auf der Karte
-  delay?: number; // neue Verspätung in Minuten (zählt animiert hoch)
-  resources?: Partial<Resources>;
-  night?: number; // 0 = Tag, 1 = Nacht
-  stop?: boolean; // Zug bremst in dieser Szene bis zum Stillstand
-  go?: boolean; // Zug fährt in dieser Szene wieder an
-  ticker?: string; // Lauftext unten in der Anzeige
-  // Hervorhebung auf der Karte
-  wagen?: WagenId;
-  label?: string; // kurzes Schlagwort über dem Wagen
-  marker?: string; // Markierung in der Wagenmitte, z. B. "1 Steckdose"
-  crowd?: boolean; // Fahrgäste im Wagen drängen zur Markierung
+  set: string;
+  time?: string;
+  slug?: string;
+  titleCard?: boolean;
+  poster?: boolean; // Kontrollbild für das Handy
+  hud?: {delay?: number; clock?: string};
+  lines?: Line[];
   sfx?: SfxCue[];
-  voice?: string; // Sprachaufnahme unter public/, z. B. "voice/day-01/02.mp3"
-  still?: boolean; // Standbild für die Kontrolle rendern
+  [blenderOnly: string]: unknown;
 };
 
-export type IntroScene = SceneBase & {type: 'intro'; subtitle: string};
-export type DiaryScene = SceneBase & {type: 'diary'; text: string};
-export type DurchsageScene = SceneBase & {type: 'durchsage'; text: string; urgent?: boolean};
-export type MapEventScene = SceneBase & {type: 'mapEvent'; wagen: WagenId; text: string};
-export type CliffhangerScene = SceneBase & {
-  type: 'cliffhanger';
-  lines: string[];
-  punch: string;
-  teaser: string;
-};
-
-export type Scene = IntroScene | DiaryScene | DurchsageScene | MapEventScene | CliffhangerScene;
-
-export type Episode = {
+export type FilmEpisode = {
   day: number;
+  title: string;
   route: {from: string; to: string};
-  delay: {from: number; to: number};
-  resources: Resources;
-  resourcesMax?: Partial<Resources>;
-  ticker: string;
-  intro: Omit<IntroScene, 'type'>;
-  scenes: (DiaryScene | DurchsageScene | MapEventScene)[];
-  cliffhanger: Omit<CliffhangerScene, 'type'>;
+  fps: number;
+  intro: {subtitle: string};
+  shots: Shot[];
+  cliffhanger: {
+    duration: number;
+    lines: string[];
+    punch: string;
+    teaser: string;
+    sfx?: SfxCue[];
+  };
+};
+
+export type RenderManifest = {
+  shots: Record<string, {frames: number; step: number; res: [number, number]; quality: string}>;
 };
