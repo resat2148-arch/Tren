@@ -9,7 +9,7 @@ So kommt Ton hinein:
 
 | Zeit | Spur | Sound / Sprecher | Shot | Hinweis / Text |
 |---|---|---|---|---|
-| 0:00.0 – 0:13.6 | SFX | `rail_loop` (Loop) | s01 | Fahrgeräusch bis zur Vollbremsung |
+| 0:00.0 – 0:11.9 | SFX | `rail_loop` (Loop) | s01 | Fahrgeräusch bis zur Vollbremsung |
 | 0:03.0 – 0:06.6 | SFX | `crowd_murmur` | s02 | leises Großraumgemurmel |
 | 0:03.2 – 0:06.4 | Stimme | Platz 47 (Off-Stimme) | s02 | „Köln Hbf, 14:08. Fensterplatz, Kaffee, vier Stunden Ruhe. Was soll schon schiefgehen?“ |
 | 0:06.6 | SFX | `gong` | s03 |  |
