@@ -207,8 +207,9 @@ class Actor:
         if look == 'camera':
             return cam_pos
         if look == 'window':
+            # schräg nach vorn hinaus, nicht hart zur Seite (sonst sieht die Kamera nur den Hinterkopf)
             side = -1 if f.x < 0 else 1
-            return Vector((side * 4.0, f.y - 1.5, f.z - 0.1))
+            return f + fwd * 3.0 + Vector((side * 1.6, 0, -0.15))
         if look == 'ceiling':
             return Vector((f.x * 0.3, f.y - 1.2, 2.6))
         if look == 'down':
